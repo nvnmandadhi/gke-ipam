@@ -1,0 +1,10 @@
+steps:
+  - id: 'create cluster'
+    name: 'us-central1-docker.pkg.dev/${PROJECT_ID}/artifacts/toolbox:latest'
+    script: |
+      tofu init
+      tofu apply -auto-approve
+    env:
+      - 'TF_VAR_project_id=${PROJECT_ID}'
+options:
+  logging: GCS_ONLY
