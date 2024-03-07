@@ -1,0 +1,12 @@
+steps:
+  - id: 'build toolbox image'
+    name: 'gcr.io/cloud-builders/docker'
+    script: |
+      docker build -t us-central1-docker.pkg.dev/${PROJECT_ID}/artifacts/toolbox:latest .
+    automapSubstitutions: true
+serviceAccount: 'projects/${PROJECT_ID}/serviceAccounts/${_SERVICE_ACCOUNT}'
+images:
+  - 'us-central1-docker.pkg.dev/${PROJECT_ID}/artifacts/toolbox:latest'
+options:
+  logging: GCS_ONLY
+  default_logs_bucket_behavior: REGIONAL_USER_OWNED_BUCKET
