@@ -49,6 +49,13 @@ resource "google_compute_instance" "gke-test" {
   shielded_instance_config {
     enable_secure_boot = true
   }
+  service_account {
+    email  = google_service_account.gke-access-sa.email
+    scopes = ["cloud-platform"]
+  }
+  metadata = {
+    "disable-legacy-endpoints" = "TRUE"
+  }
   network_interface {
     subnetwork = module.net.subnets["${var.region}/${var.region}-snet-${var.random_suffix}"]["self_link"]
   }
@@ -57,6 +64,6 @@ resource "google_compute_instance" "gke-test" {
     #!/bin/bash
     set -ex
     sudo apt-get update
-    sudo apt-get install kubectl google-cloud-sdk-gke-gcloud-auth-plugin
+    sudo apt-get install -y kubectl google-cloud-sdk-gke-gcloud-auth-plugin
   EOT
 }

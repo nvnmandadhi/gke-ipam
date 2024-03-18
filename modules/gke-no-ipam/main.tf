@@ -2,6 +2,16 @@ resource "google_service_account" "gke-sa" {
   account_id = "gke-sa-${var.random_suffix}"
 }
 
+resource "google_service_account" "gke-access-sa" {
+  account_id = "gke-access-sa-${var.random_suffix}"
+}
+
+resource "google_project_iam_member" "gke-dev" {
+  project = var.project_id
+  member  = "serviceAccount:${google_service_account.gke-access-sa.email}"
+  role    = "roles/container.developer"
+}
+
 module "net" {
   source  = "terraform-google-modules/network/google"
   version = "~> 9.0"
