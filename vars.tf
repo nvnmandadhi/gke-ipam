@@ -14,6 +14,10 @@ variable "subnet_cidr" {
   type = string
 }
 
+variable "psc_subnet_cidr" {
+  type = string
+}
+
 variable "secondary_ranges" {
   type = map(string)
 }

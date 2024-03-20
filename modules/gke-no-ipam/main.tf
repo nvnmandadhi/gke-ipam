@@ -27,6 +27,13 @@ module "net" {
       subnet_ip             = var.subnet_cidr
       subnet_region         = var.region
       subnet_private_access = "true"
+    },
+    {
+      subnet_name           = "${var.region}-psc-snet-${var.random_suffix}"
+      subnet_ip             = var.psc_subnet_cidr
+      subnet_region         = var.region
+      subnet_private_access = "true"
+      purpose               = "PRIVATE_SERVICE_CONNECT"
     }
   ]
 
@@ -192,4 +199,16 @@ resource "google_gke_hub_membership" "primary" {
   authority {
     issuer = "https://container.googleapis.com/v1/${module.gke.cluster_id}"
   }
+}
+
+resource "google_compute_firewall" "psc_snet" {
+  name      = "allow-psc-${var.random_suffix}"
+  direction = "INGRESS"
+  allow {
+    protocol = "tcp"
+  }
+  source_ranges           = [var.psc_subnet_cidr]
+  target_service_accounts = [google_service_account.gke-sa.email]
+  network                 = module.net.network_id
+  project                 = var.project_id
 }

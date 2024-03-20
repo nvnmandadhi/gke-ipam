@@ -8,6 +8,7 @@ secondary_ranges = {
   services    = "100.64.128.0/20"
   master_cidr = "100.64.144.0/28"
 }
+psc_subnet_cidr = "100.64.192.0/24"
 master_authorized_networks = [
   {
     cidr_block   = "100.64.0.0/10"

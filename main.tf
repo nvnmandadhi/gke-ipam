@@ -11,6 +11,7 @@ module "gke-no-ipam-1" {
   router_machine_type        = var.router_machine_type
   primary_subnet             = module.primary.subnets_ids[0]
   primary_net_cidrs          = var.primary_net_cidrs
+  psc_subnet_cidr            = var.psc_subnet_cidr
 }
 
 module "gke-no-ipam-2" {
@@ -26,4 +27,5 @@ module "gke-no-ipam-2" {
   router_machine_type        = var.router_machine_type
   primary_subnet             = module.primary.subnets_ids[0]
   primary_net_cidrs          = var.primary_net_cidrs
+  psc_subnet_cidr            = var.psc_subnet_cidr
 }
